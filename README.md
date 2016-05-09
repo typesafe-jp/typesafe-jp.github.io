@@ -1,0 +1,1 @@
+# typesafe-jp.github.io
