@@ -19,6 +19,18 @@ body {
     -o-background-size: cover;
 }
 
+.business-header-small {
+    height: 110px;
+    background: url('../images/goodorbad.jpg') center center no-repeat scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+.business-header-small h1{
+    font-size: 2em;
+}
+
 /* Customize the text color and shadow color and to optimize text legibility. */
 
 .tagline {
