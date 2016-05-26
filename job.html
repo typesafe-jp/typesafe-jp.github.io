@@ -178,7 +178,7 @@
     $('#myModal').modal();
     $('#showDialog').click(function(){$('#myModal').modal();});
     $('#jobForm').submit(function(e){e.preventDefault();doSearch();});
-    $('#getJob').click(doSearch);
+    $('#getJob').click(function(){doSearch();});
     if (window.location.search.length > 1) {doSearch(window.location.search.replace('?',''))}
     console.log(
         "======================================\n"+
