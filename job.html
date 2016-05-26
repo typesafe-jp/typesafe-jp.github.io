@@ -126,8 +126,16 @@
                     </div>
                     <div class="form-group">
                       <div id="jobDetail"></div>
-                    </div>  
-                </form>
+                    </div>
+                 </form>
+                 <div class="panel panel-danger hidden" id="jobNotFound">
+                     <div class="panel-heading"><span class="glyphicon glyphicon-remove"></span> 案件は見つかりません。</div>
+                     <div class="panel-body">
+                         <address>
+                             <abbr title="Email">メールでお問い合わせ:</abbr> <a target="_blank" href="mailto:support@typesafe.jp?subject=案件問い合わせ">support@typesafe.jp</a>
+                         </address>
+                     </div>
+                 </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -174,8 +182,9 @@
             $('#jobDetail pre code:not(.hljs)').each(function(i, block) {
                 hljs.highlightBlock(block);
             });
+            $('#jobNotFound').addClass('hidden');
         }).error(function(e){
-            $('#jobDetail').html('<label class="well bg-warning">案件存在しません。</label>');
+            $('#jobNotFound').removeClass('hidden');
         });
     }
     $('#myModal').modal();
