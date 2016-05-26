@@ -123,7 +123,7 @@
                  <form id="jobForm">
                     <div class="form-group">
                       <label for="jobid" class="control-label">案件IDを入力してください：</label>
-                      <input type="text" class="form-control" id="jobid" placeholder="Enter job Id">
+                      <input type="text" class="form-control" id="jobid" placeholder="Find exciting typesafe job!">
                     </div>
                     <div class="form-group">
                       <div id="jobDetail"></div>
@@ -160,9 +160,14 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/marked.min.js"></script>
     <script type="text/javascript">
-    function doSearch(){
+    function doSearch(jobId){
+        if (typeof jobId === 'undefined' || !jobId){
+            jobId = $('#jobid').val();
+        } else {
+            $('#jobid').val(jobId);
+        }
         $.ajax({
-            url: 'jobs/' + $('#jobid').val() + '.MD',
+            url: 'jobs/' + jobId + '.MD',
             dataType: 'text'
         }).success(function(data){
             $('#jobDetail').html(marked(data));
@@ -174,6 +179,7 @@
     $('#showDialog').click(function(){$('#myModal').modal();});
     $('#jobForm').submit(function(e){e.preventDefault();doSearch();});
     $('#getJob').click(doSearch);
+    if (window.location.search.length > 1) {doSearch(window.location.search.replace('?',''))}
     console.log(
         "======================================\n"+
         "Web好きのあなた、ぜひTypeSafeへご加入を期待しております。\n"+
