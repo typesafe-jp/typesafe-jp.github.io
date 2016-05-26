@@ -14,12 +14,11 @@
     <link rel="icon" href="images/logo/TS-192x192.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="images/logo/TS-180x180.png">
 
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/highlight.min.css" rel="stylesheet" >
 
     <!-- Custom CSS -->
     <link href="css/business-frontpage.css" rel="stylesheet">
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -154,10 +153,11 @@
     <!-- /.container -->
 
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="js/highlight.min.js"></script>
     <script src="js/marked.min.js"></script>
     <script type="text/javascript">
     function doSearch(jobId){
@@ -171,6 +171,9 @@
             dataType: 'text'
         }).success(function(data){
             $('#jobDetail').html(marked(data));
+            $('#jobDetail pre code:not(.hljs)').each(function(i, block) {
+                hljs.highlightBlock(block);
+            });
         }).error(function(e){
             $('#jobDetail').html('<label class="well bg-warning">案件存在しません。</label>');
         });
@@ -179,7 +182,14 @@
     $('#showDialog').click(function(){$('#myModal').modal();});
     $('#jobForm').submit(function(e){e.preventDefault();doSearch();});
     $('#getJob').click(function(){doSearch();});
-    if (window.location.search.length > 1) {doSearch(window.location.search.replace('?',''))}
+    // Support URL ?serachKey
+    if (window.location.search.length > 1) {
+        doSearch(window.location.search.replace('\?',''))
+    };
+    // Init only once
+    marked.setOptions({langPrefix: ''});
+    hljs.initHighlighting();
+    // Recruit web hacker!
     console.log(
         "======================================\n"+
         "Web好きのあなた、ぜひTypeSafeへご加入を期待しております。\n"+
