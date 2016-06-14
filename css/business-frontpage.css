@@ -47,6 +47,9 @@ body {
 .business-header-small {
     height: 110px;
 }
+.business-header-none {
+    height: 0px;
+}
 .business-header-small h1{
     font-size: 2em;
 }
