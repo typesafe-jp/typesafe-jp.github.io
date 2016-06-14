@@ -29,6 +29,8 @@ body {
   color: #ffffff;
 }
 
+.top-buffer { margin-top:10px; }
+
 /* Header Image Background - Change the URL below to your image path (example: ../images/background.jpg) */
 .business-header {
     background: url('../images/goodorbad.jpg') center center no-repeat scroll;
