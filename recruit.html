@@ -104,7 +104,7 @@
             <address>
                 <abbr title="Email">Eメール:</abbr> <a target="_blank" href="mailto:support@typesafe.jp?subject=案件問い合わせ">support@typesafe.jp</a>
             </address>
-            <button type="button" id="showDialog" class="btn btn-success">案件IDで検索</button>
+            <a class="btn btn-success" href="?index">案件IDで検索</a>
         </div>
     </div>
     <!-- /.row -->
@@ -165,6 +165,8 @@
     function doSearch(jobId){
         if (typeof jobId === 'undefined' || !jobId){
             jobId = $('#jobid').val();
+        } else if (jobId === 'index'){
+            // just show index info
         } else {
             $('#jobid').val(jobId);
         }
@@ -185,7 +187,6 @@
         });
     }
 
-    $('#showDialog').click(function(){$('#myModal').modal();});
     $('#jobForm').submit(function(e){e.preventDefault();doSearch();});
     $('#getJob').click(function(){doSearch();});
     // Support URL ?serachKey
