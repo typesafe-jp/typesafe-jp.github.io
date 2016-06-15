@@ -172,7 +172,6 @@
         }
         $('#jobNotFound').addClass('hidden');
         $('#jobDetail').empty();
-        $('#myModal').modal();
 
         $.ajax({
             url: 'jobs/' + jobId + '.MD',
@@ -182,6 +181,7 @@
             $('#jobDetail pre code:not(.hljs)').each(function(i, block) {
                 hljs.highlightBlock(block);
             });
+            $('#myModal').modal();
         }).error(function(e){
             $('#jobNotFound').removeClass('hidden');
         });
@@ -194,7 +194,7 @@
         doSearch(window.location.search.replace('\?',''))
     };
     // Init only once
-    marked.setOptions({langPrefix: '',headerPrefix: 'typesafe'});
+    marked.setOptions({langPrefix: '',headerPrefix: 'TS'});
     hljs.initHighlighting();
     // Recruit web hacker!
     console.log(
