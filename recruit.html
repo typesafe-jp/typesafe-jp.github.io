@@ -194,7 +194,7 @@
         doSearch(window.location.search.replace('\?',''))
     };
     // Init only once
-    marked.setOptions({langPrefix: ''});
+    marked.setOptions({langPrefix: '',headerPrefix: 'typesafe'});
     hljs.initHighlighting();
     // Recruit web hacker!
     console.log(
