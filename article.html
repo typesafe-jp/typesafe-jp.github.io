@@ -28,7 +28,7 @@
 
 </head>
 
-<body>
+<body data-spy="scroll" data-target="#myScrollspy">
 
 <!-- Navigation -->
 <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
@@ -78,7 +78,14 @@
             <li class="active">TypeSafe技術センター</li>
         </ul>
     </div>
-    <div id="articleDetail">
+    <div class="row">
+        <nav class="col-sm-3" id="myScrollspy">
+            <ul class="nav nav-pills nav-stacked" data-spy="affix" data-offset-top="0" id="articleTOC"></ul>
+        </nav>
+        <!--<div class="col-sm-3" id="toc">-->
+        <!--</div>-->
+        <div class="col-sm-9" id="articleDetail">
+        </div>
     </div>
     <div class="panel panel-danger hidden" id="articleNotFound">
         <div class="panel-heading"><span class="glyphicon glyphicon-remove"></span> 大変申し訳ございませんが、記事が見つかりません。</div>
@@ -105,6 +112,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="js/highlight.min.js"></script>
 <script src="js/marked.min.js"></script>
+<script src="js/toc.js"></script>
 <script type="text/javascript">
     function doSearch(articleId){
         if (typeof articleId === 'undefined' || !articleId){
@@ -121,6 +129,7 @@
             $('#articleDetail pre code:not(.hljs)').each(function(i, block) {
                 hljs.highlightBlock(block);
             });
+            $('#articleTOC').html($('<div>').toc().find('ul').html());
         }).error(function(e){
             $('#articleNotFound').removeClass('hidden');
         });
