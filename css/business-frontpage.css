@@ -33,6 +33,7 @@ body {
 
 /* Header Image Background - Change the URL below to your image path (example: ../images/background.jpg) */
 .business-header {
+    background: url('../images/goodorbad.jpg') center center no-repeat scroll;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
@@ -41,14 +42,13 @@ body {
     margin-top: 50px;
 }
 .business-header-large {
-    background: url('../images/goodorbad.jpg') center center no-repeat scroll;
     height: 400px;
 }
 .business-header-small {
-    background: url('../images/goodorbad.jpg') center center no-repeat scroll;
     height: 110px;
 }
 .business-header-none {
+    background: none;
     height: 50px;
 }
 .business-header-small h1{
