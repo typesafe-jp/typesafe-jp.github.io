@@ -130,10 +130,12 @@
             url: 'techs/' + articleId + '.MD',
             dataType: 'text'
         }).success(function(data){
-            $('#articleDetail').html(marked(data));
-            $('#articleDetail pre code:not(.hljs)').each(function(i, block) {
+            var $articleDetail = $('#articleDetail');
+            $articleDetail.html(marked(data));
+            $articleDetail.find('pre code:not(.hljs)').each(function(i, block) {
                 hljs.highlightBlock(block);
             });
+            $articleDetail.find('table').addClass('table table-bordered table-striped');
 
             // Generate toc dynamic
             $('#tocUL').toc();

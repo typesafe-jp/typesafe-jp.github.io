@@ -177,10 +177,12 @@
             url: 'jobs/' + jobId + '.MD',
             dataType: 'text'
         }).success(function(data){
-            $('#jobDetail').html(marked(data));
-            $('#jobDetail pre code:not(.hljs)').each(function(i, block) {
+            var $jobDetail = $('#jobDetail');
+            $jobDetail.html(marked(data));
+            $jobDetail.find('pre code:not(.hljs)').each(function(i, block) {
                 hljs.highlightBlock(block);
             });
+            $jobDetail.find('table').addClass('table table-bordered table-striped');
             $('#myModal').modal();
         }).error(function(e){
             $('#jobNotFound').removeClass('hidden');
