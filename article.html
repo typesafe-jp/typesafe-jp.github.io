@@ -137,6 +137,19 @@
             });
             $articleDetail.find('table').addClass('table table-bordered table-striped');
 
+            $articleDetail.find('a').attr('target', '_blank');
+
+            $articleDetail.find('a[href*="not_open"]')
+                .click(function(){return false;})
+                .popover({
+                    title: '未公開記事',
+                    placement: 'auto',
+                    html: true,
+                    content: '<div class="alert alert-danger"><strong>大変申し訳ございません!</strong>' +
+                        '<p>未公開記事となっております。お気軽くに<a href="inquire.html">お問い合わせ</a>ください。</p></div>',
+                    trigger: 'focus',
+                });
+
             // Generate toc dynamic
             $('#tocUL').toc();
 
