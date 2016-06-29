@@ -129,59 +129,57 @@
         $.ajax({
             url: 'techs/' + articleId + '.MD',
             dataType: 'text'
-        }).success(function(data){
-            var $articleDetail = $('#articleDetail');
-            $articleDetail.html(marked(data));
-            $articleDetail.find('pre code:not(.hljs)').each(function(i, block) {
-                hljs.highlightBlock(block);
-            });
-            $articleDetail.find('table').addClass('table table-bordered table-striped');
-
-            $articleDetail.find('a').attr('target', '_blank');
-
-            $articleDetail.find('a[href*="not_open"]')
-                .attr('role', 'button')
-                .attr('tabindex', '0')
-                .popover({
-                    title: '未公開記事',
-                    placement: 'auto',
-                    html: true,
-                    content: '<div class="alert alert-danger"><strong>大変申し訳ございません!</strong>' +
-                        '<p>未公開記事となっております。お気軽くに<a href="inquire.html">お問い合わせ</a>ください。</p></div>',
-                    trigger: 'focus',
-                })
-                .click(function(){return false;});
-
-            // Generate toc dynamic
-            $('#tocUL').toc();
-
-            // Add scroll spy
-            $('#articleToc ul').addClass("nav nav-stacked");
-            $('body').scrollspy({
-                target: '#articleToc',
-                offset: 150
-            });
-
-            // Scroll animate
-            $('#articleToc a').click(function(){
-                $('html, body').animate({
-                    scrollTop: $( $.attr(this, 'href') ).offset().top - 50     // .business-header margin-top: 50px
-                }, 500);
-                return false;
-            });
-
-        }).error(function(e){
+        }).success(searchOK).error(function(e){
             $('#articleNotFound').removeClass('hidden');
         });
     }
 
+    function searchOK(data){
+        var $articleDetail = $('#articleDetail');
+        $articleDetail.html(marked(data));
+        $articleDetail.find('pre code:not(.hljs)').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
+        $articleDetail.find('table').addClass('table table-bordered table-striped');
+
+        // Open resource in new tab unless url with 'not_open'
+        $articleDetail.find('a').attr('target', '_blank');
+        $articleDetail.find('a[href*="not_open"]')
+            .attr('role', 'button')
+            .attr('tabindex', '0')
+            .popover({
+                title: '<span class="text-info"><strong>未公開記事</strong></span>'+
+                       '<button type="button" id="close" class="close" onclick="$(this).popover(&quot;hide&quot;);">&times;</button>',
+                placement: 'auto',
+                html: true,
+                content: '<div class="alert alert-danger"><strong>大変申し訳ございません!</strong>' +
+                    '<p>未公開記事となっております。お気軽くに<a href="inquire.html">お問い合わせ</a>ください。</p></div>',
+                trigger: 'focus',
+            })
+            .click(function(){return false;});
+
+        // Generate toc dynamic
+        $('#tocUL').toc();
+
+        // Add scroll spy
+        $('#articleToc ul').addClass("nav nav-stacked");
+        $('body').scrollspy({
+            target: '#articleToc',
+            offset: 150
+        });
+
+        // Scroll animate
+        $('#articleToc a').click(function(){
+            $('html, body').animate({
+                scrollTop: $( $.attr(this, 'href') ).offset().top - 50     // .business-header margin-top: 50px
+            }, 500);
+            return false;
+        });
+
+    }
+
     // Support URL ?serachKey
     doSearch(window.location.search.replace('\?',''))
-
-    // Fix popover focus not blur
-    $('body').click(function () {
-       document.activeElement.blur();
-    });
 
     // Init only once
     marked.setOptions({langPrefix: ''});
