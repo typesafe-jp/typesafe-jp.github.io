@@ -178,6 +178,11 @@
     // Support URL ?serachKey
     doSearch(window.location.search.replace('\?',''))
 
+    // Fix popover focus not blur
+    $('body').click(function () {
+       document.activeElement.blur();
+    });
+
     // Init only once
     marked.setOptions({langPrefix: ''});
     hljs.initHighlighting();
