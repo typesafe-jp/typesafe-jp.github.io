@@ -140,7 +140,8 @@
             $articleDetail.find('a').attr('target', '_blank');
 
             $articleDetail.find('a[href*="not_open"]')
-                .click(function(){return false;})
+                .attr('role', 'button')
+                .attr('tabindex', '0')
                 .popover({
                     title: '未公開記事',
                     placement: 'auto',
@@ -148,7 +149,8 @@
                     content: '<div class="alert alert-danger"><strong>大変申し訳ございません!</strong>' +
                         '<p>未公開記事となっております。お気軽くに<a href="inquire.html">お問い合わせ</a>ください。</p></div>',
                     trigger: 'focus',
-                });
+                })
+                .click(function(){return false;});
 
             // Generate toc dynamic
             $('#tocUL').toc();
