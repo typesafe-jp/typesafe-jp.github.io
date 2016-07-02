@@ -27,7 +27,7 @@ List<Integer> list = new ArrayList<>();
 List<Integer> list = new LinkedList<>();
 ```
 
-List< Integer \>はinterfaceで、
+List\<Integer\>はinterfaceで、
 その具象クラスを変える場合（例：ArrayList⇛LinkedList)、
 ほかのソース変更なくても、同じinterfaceで振舞う可能のメリットがあります。
 
@@ -107,8 +107,8 @@ void doModel(List<Integer> distinctedList) {
 
 ## 問題とは？
 
-上記の開発流れで、綺麗なソースができています。
-List< Integer \>で各チーム間のAPIのパラメータとして渡していて、interface Listの具象（ArrayListかLinkedListか）を意識必要はありません。
+上記の開発流れで、成果物（簡潔な処理フロー、無駄なソースコードなし）として問題はありません。
+そして、`List<Integer>`で各チーム間のAPIのパラメータとして渡していて、interface Listの具象（ArrayListかLinkedListか）を意識必要はありません。
 
 但し、最大な問題は 【**上記のソースはチーム向けではなく、少数人数開発向けのアプローチ**】 と考えられています。
 
@@ -166,9 +166,9 @@ Namingは難しいです。
 
 各チームのAPIに定義された複数の`List<Integer>`のパラメータ名や変数名を確認したら：
 
-- List< Integer \> parameterList
-- List< Integer \> sortedList
-- List< Integer \> distinctedList
+- List\<Integer\> parameterList
+- List\<Integer\> sortedList
+- List\<Integer\> distinctedList
 
 確かに意味明確なNamingと思います。
 
@@ -263,9 +263,9 @@ void doModel(List<Integer> distinctedList) {
 
 TypeSafeの観点では、解決すべき問題点は下記の`嘘つき`可能性あるのパラメータや変数名です：
 
-- List< Integer \> parameterList
-- List< Integer \> sortedList
-- List< Integer \> distinctedList
+- List\<Integer\> parameterList
+- List\<Integer\> sortedList
+- List\<Integer\> distinctedList
 
 `嘘つき`可能性ある名前を解決するために、
 `嘘つかない`Listの具象クラス（Type）を作るによって、
