@@ -363,11 +363,12 @@ void doModel(DistinctedList<Integer> distinctedList) {
 
 今度の例に登場したTypeは：
 
-- 0件可能性あるか：　MayEmptyList
-- 1件以上: NotEmptyList
-- ソート済み(かならずNotEmpty)：　SortedList
-- 重複取り除く済み(かならずSorted)：　DistinctedList
-
+| パターン | Type     |
+| --------|---------|
+| 0件可能性ある  | MayEmptyList|
+| 1件以上       | NotEmptyList|
+| ソート済み(かならずNotEmpty)     | SortedList|
+|  重複取り除く済み(かならずSorted) | DistinctedList|
 
 # まとめ
 
@@ -409,14 +410,17 @@ JAVA、C#のような静的な言語のCompilerの制限を最大化し、
 
 - どこまで型作ればよいか、
 - 型を作る際に注意点は何でしょうか、
+- 型どんどん増えても、簡潔、自然でプログラミングできる方法はないでしょうか、
 - プロジェクトにどう導入すればよいのか。
 
 いろいろ質問があると思っております。
 
-TypeSafe株式は、
+TypeSafe株式会社は、
 
 - 簡単で貴社の新規・既存のプロジェクトに導入しやすい共通部品
-- TypeSafe意識が高い人材を提供しており、
+- TypeSafe意識が高い開発者
+
+を提供しており、
 
 もっと詳しい情報について、お気軽く[問い合わせ](inquire.html)お待ちしております。
 
