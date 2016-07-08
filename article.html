@@ -71,7 +71,12 @@
         <div class="row top-buffer">
             <ul class="breadcrumb">
                 <li><a href="index.html">Home</a></li>
-                <li class="active">TypeSafe技術センター</li>
+                <li class="active">TypeSafe技術センター
+                    <span id="loading">
+                        <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+                        Loading...
+                    </span>
+                </li>
             </ul>
         </div>
     </div>
@@ -131,6 +136,8 @@
             dataType: 'text'
         }).success(searchOK).error(function(e){
             $('#articleNotFound').removeClass('hidden');
+        }).complete(function(){
+            $('#loading').hide();
         });
     }
 
