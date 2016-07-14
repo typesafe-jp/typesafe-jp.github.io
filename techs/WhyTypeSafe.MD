@@ -14,17 +14,17 @@ TypeSafeは、いつも品質高いソフトウェアをお客様に提供する
 
 TypeSafeは、下記のテーマの中心で研究活動を行っています。
 
-> 現時点一部資料のみ公開し、お気軽く[お問い合わせ](?inquire.html)ください。
+> 現時点一部資料のみ公開し、お気軽く[お問い合わせ](inquire.html)ください。
 
 ## TypeSafe for Enterprise
 
- - [中大規模企業開発向けのTypeSafe](?typesafe_in_java_enterprise/TypeSafeCollection_not_open)
+ - [中大規模企業開発向けのTypeSafe](?typesafe_in_java_enterprise/TypeSafeCollection)
 
 ## TypeSafe Technologies
 
 ### 静的な言語の王様： Java
 
- - [バグの潜在：nullの危険性](?typesafe_in_java/AboutIf)
+ - [バグの潜在：nullの危険性](?typesafe_in_java/AboutIf_not_open)
  - [バグの潜在：if...else..の危険性](?typesafe_in_java/AboutNull_not_open)
 
 ### Web言語の王様: JavaScript
