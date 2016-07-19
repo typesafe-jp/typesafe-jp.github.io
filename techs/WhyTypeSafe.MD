@@ -1,4 +1,4 @@
-# なぜTypeSafe
+## なぜTypeSafe
 
 TypeSafeは、いつも品質高いソフトウェアをお客様に提供するため、
 `バグはできるだけ早めに排除する`基本原則として、
@@ -10,32 +10,32 @@ TypeSafeは、いつも品質高いソフトウェアをお客様に提供する
 2. 実行する段階でも、バグを混入しにくいため、[Defensive(防御的な)プログラミング](https://en.wikipedia.org/wiki/Defensive_programming)を提唱する
 3. 曖昧な仕様よりバグの混入させないために、厳密な型（`TypeSafe`）の[Interface API](https://ja.wikipedia.org/wiki/アプリケーションプログラミングインタフェース)を定義すべきと提唱する
 
-# TypeSafeのフォーカス
+## TypeSafeのフォーカス
 
 TypeSafeは、下記のテーマの中心で研究活動を行っています。
 
 > 現時点一部資料のみ公開し、お気軽く[お問い合わせ](inquire.html)ください。
 
-## TypeSafe for Enterprise
+### TypeSafe for Enterprise
 
  - [中大規模企業開発向けのTypeSafe](?typesafe_in_java_enterprise/TypeSafeCollection)
 
-## TypeSafe Technologies
+### TypeSafe Technologies
 
-### 静的な言語の王様： Java
+#### 静的な言語の王様： Java
 
  - [バグの潜在：nullの危険性](?typesafe_in_java/AboutIf_not_open)
  - [バグの潜在：if...else..の危険性](?typesafe_in_java/AboutNull_not_open)
 
-### Web言語の王様: JavaScript
+#### Web言語の王様: JavaScript
 
  - [JavaScriptもTypeSafe道へ](?typesafe_in_web/AboutTypeSafeJS_not_open)
 
-### ビジネスの基盤： データベース
+#### ビジネスの基盤： Database
 
  - [災難から守る：データベースもバージョン管理](?typesafe_in_database/AboutCRUD_not_open)
 
-### マルチコア世界へ: 並列プログラミング
+#### マルチコア世界へ: 並列プログラミング
 
  - [TypeSafeは並列処理と相性が良い](?typesafe_in_database/AboutConcurrency_not_open)
 
