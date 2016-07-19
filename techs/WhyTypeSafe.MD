@@ -35,7 +35,7 @@ TypeSafeは、下記のテーマの中心で研究活動を行っています。
 
  - [災難から守る：データベースもバージョン管理](?typesafe_in_database/AboutCRUD_not_open)
 
-## マルチコア世界へ: 並列プログラミング
+### マルチコア世界へ: 並列プログラミング
 
  - [TypeSafeは並列処理と相性が良い](?typesafe_in_database/AboutConcurrency_not_open)
 
