@@ -26,7 +26,7 @@ TypeSafeは、下記のテーマの中心で研究活動を行っています。
 
 #### 静的な言語の王様： Java
 
- - [バグの潜在：nullの危険性](?typesafe_in_java/TypeSafeNull_not_open)
+ - [バグの潜在：nullの危険性](?typesafe_in_java/TypeSafeNull)
  - [バグの潜在：if...else..の危険性](?typesafe_in_java/TypeSafeIfElse)
  - [バグの潜在：配列へアクセス、不必要な自由](?typesafe_in_java/TypeSafeIndexOutOfBound)
  - [バグの潜在：Java世界で危険な常識](?typesafe_in_java/TypeSafeJavaLang_not_open)

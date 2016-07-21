@@ -27,7 +27,7 @@ void doFoo(List<Integer> list) {
 
 TypeSafeの観点より、`if...else...`文には、２点の潜在問題あります。
 
-1. if文・書き漏れやすい
+1. if文・先決条件書き漏れやすい
 2. else文・書き漏れやすい
 
 > もう１つの問題は：
@@ -36,14 +36,14 @@ TypeSafeの観点より、`if...else...`文には、２点の潜在問題あり�
 > で説明いたしますので、本文割愛します。
 
 
-## 問題1：if文・書き漏れやすい
+## 問題1：if文・先決条件書き漏れやすい
 
 タイトルだけでありえないと思う人がいますが、
 上記の実装例には、
 
 `!list.isEmpty()`を判定してから`list.get(0)`、２ステップで分けられています。
 
-`list.isEmpty()`を判定せず、
+先決条件としての`!list.isEmpty()`を判定せず、
 `list.get(0)`を呼び出してしまうと、
 `IndexOutOfBoundsException`が発生する危険性があるからです。
 
@@ -53,7 +53,7 @@ TypeSafeの観点より、`if...else...`文には、２点の潜在問題あり�
 その危険性を排除する方法は：
 
 - 目視チェックするか（チェック漏れあり）
-- ソースチェックツールの導入(FindBugsなど一部パターン対応可能)
+- ソースチェックツールの導入(FindBugsなど一部パターンのみ対応可能)
 - 大量テストで保証する（テスト漏れあり）
 
 いくつありますが、根本的な解決案ではないです。
@@ -65,32 +65,34 @@ TypeSafeの観点より、`if...else...`文には、２点の潜在問題あり�
 
 elseなしのソースコードが良く見られていますが、
 
-ソースを見る、特に障害調査する際に良くある思考です：
-「elseの場合どうする？本当に不要か、考え漏れか」
+ソースを読む、特に障害調査する際に良くある思考です：
+「このソースelseの場合どうする？本当に不要か、考え漏れか」
 
-TypeSafeの観点より、「ソースコードは人間を読むために」存在なので、
+TypeSafeの観点より、「ソースコードは人間に読ませるため」の存在なので、
 可読性（readability）を大事にしています。
 
-else省略することでソースコードが短く（簡単）なりますが、
-読み難く（≠簡潔）場合があります。
-考慮漏れの場合、さらにバグと繋ぎます。
+else省略することで、ソースコードが短く（`簡単`）なりますが、
+読み難く（`簡単≠簡潔`）場合があります。
 
-すべての分岐を網羅すべき（else不要としても、必ず明記する）という
-`強制思考`を実装者に要求するのは、TypeSafeのルールの１つです。
+さらにelse考慮漏れの場合、バグと繋ぎます。
+
+**すべての分岐を網羅すべき（else不要としても、必ず明記する）という
+`強制思考`を実装者に要求するのは、TypeSafeのルールの１つです。**
 
 ## 残課題
 
 前文（[TypeSafe@企業・中大規模プロジェクト](?typesafe_in_java_enterprise/TypeSafeCollection)）
 で説明したように、Listを空可能の状態`MayEmptyList`と空不可の状態`NotEmptyList`を分離で、Listがもっと安全に使われると説明しました。
 
-但し、MayEmptyListからNotEmptyListに変換するため、通常の書き方だっと、
-同じ`if...else...`問題があります：
+但し、前文にMayEmptyListからNotEmptyListに変換するため、通常の書き方だっと、
+同じ`if...else...`問題が残ります：
 
 ```java
 void doFoo(MayEmptyList<Integer> mayEmpty) {
 
-    if (!mayEmpty.isEmpty()) { // Step1:
-        NotEmpytList notEmpty = new NotEmpytList(mayEmpty); // Step2: 2ステップ問題解消できず課題
+    if (!mayEmpty.isEmpty()) { // Step1:先決条件チェック
+        NotEmpytList notEmpty = new NotEmpytList(mayEmpty); // Step2: mayEmptyは空ならException
+                                              // 結論： 2ステップ問題解消できず課題
 
         int num = notEmpty.first();
 
@@ -108,19 +110,20 @@ TypeSafeの具体的な解決案は
 2. else文・書き漏れやすい
 　　　答え：　elseを書かないとコンパイル通れないなら、問題解決できる。
 
+### 実装例
 
 [Java8でLambda](http://www.oracle.com/technetwork/jp/articles/java/architect-lambdas-part1-2080972-ja.html)
-は大きな進化です。Lambdaを利用すれば、簡単に解決できます。
+は大きな進化です。Lambdaを利用すれば、簡潔なソースコードで問題を解決できます。
 
 Lambdaでソースを書き直すと：
 
 ```java
 void doFoo(MayEmptyList<Integer> mayEmpty) {
 
-    mayEmpty
-    .ifPresent( /* List要素存在する場合 */
-        notEmpty -> {   /* 注：notEmpty は　NotEmpytList　notEmptyの型省略したものです */
-            // 問題1解決： Listが空ではない時点、すでにNotEmpytList向けプログラミングので、チェック忘れはありません
+    mayEmpty.ifPresent( /* List要素存在する場合 */
+        notEmpty -> {   /* 注：NotEmpytList　の型省略してもよい */
+
+            // 問題1解決： ifPresent結果が「true」の場合、NotEmpytListが同時に提供するので、２ステップ問題解消！
             int num = notEmpty.first();
 
             doBar(num);
@@ -134,8 +137,8 @@ void doFoo(MayEmptyList<Integer> mayEmpty) {
 
 ## 結論
 
-上記のように、ばらばらだっと危険性がある複数ステップをライブラリー（例：ifPresent）に隠蔽し、
-１ステップとしてAPIを提供する技術はもっと安全なソフトウェアの基盤になります。
+上記のように、ばらばらだっと危険性がある複数ステップを部品化（例：ifPresent）に隠蔽し、
+１ステップ纏めてAPIを提供する技術より、もっと自然に安全なソフトウェアを開発可能になります。
 
 ---
 
@@ -159,6 +162,6 @@ TypeSafe株式会社は、
 # 次回へ
 
 次回は、本例のもう１つ問題：
-[配列へアクセス：不必要な自由](?typesafe_in_java/TypeSafeIndexOutOfBound_not_open)
+[バグの潜在：配列へアクセス、不必要な自由](?typesafe_in_java/TypeSafeIndexOutOfBound_not_open)
 を説明させていただきます。
 お楽しみください。

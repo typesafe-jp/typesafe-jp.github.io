@@ -31,6 +31,10 @@ body {
 
 .top-buffer { margin-top:10px; }
 
+/* Customize article */
+#articleDetail blockquote {font-size: 14px; }
+#articleDetail li {line-height: 2; }
+
 /* Header Image Background - Change the URL below to your image path (example: ../images/background.jpg) */
 .business-header {
     background: url('../images/goodorbad.jpg') center center no-repeat scroll;

@@ -1,8 +1,8 @@
-# バグの潜在：if...else..の危険性
+# バグの潜在：nullの危険性
 
 > この記事を読む前には、
 >
-> 前文（[TypeSafe@企業・中大規模プロジェクト](?typesafe_in_java_enterprise/TypeSafeCollection)）
+> 1) 前文（[バグの潜在：if...else...の危険性](?typesafe_in_java/TypeSafeIfElse)）
 > を事前に習得することがお勧めです。
 >
 > 所要時間：約５分
@@ -12,12 +12,12 @@
 よく見られるソースコードです
 
 ```java
-void doFoo(List<Integer> list) {
+void doFoo(String param) {
 
-    if (!list.isEmpty()) {
-        int num = list.get(0); // 1件目を取得するために、empty事前にチェックする必要。
+    if (param != null) {
+        String lower = param.toLowerCase();
 
-        doBar(num);
+        doBar(lower);
     }
 }
 ```
@@ -27,67 +27,88 @@ void doFoo(List<Integer> list) {
 
 ２点の潜在問題あります。
 
-## チェックと利用が分離
+前文（[バグの潜在：if...else...の危険性](?typesafe_in_java/TypeSafeIfElse)）
+と同じ、
+`if...else...`文を利用しているので、２点の潜在問題あります。
+
+1. if文・先決条件書き漏れやすい
+2. else文・書き漏れやすい
+
+
+## 問題1: if文・先決条件書き漏れやすい
 
 上記の実装が許せるシステムには、１つ潜在の危険性（バグ）があります：
 
-`!list.isEmpty()`の判定と、`list.get(0)`が２ステップで分けられているので、
+`param != null`の判定と、`param.toLowerCase()`が２ステップで分けられているので、
 
-`list.isEmpty()`を判定せずに、
-`list.get(0)`を呼び出してしまうと、
-`IndexOutOfBoundsException`が発生する可能性あります。
+`param != null`を判定せずに、
+`param.toLowerCase()`を呼び出してしまうと、
+実行時有名な`NullPointException`が発生する可能性あります。
 
-簡単なサンプルまだそんなバグは無いと思いますが、
-大規模システムには、その危険性を排除する方法は目視チェック以外、ないです。
+簡単なサンプルなら、そんなバグはすぐ簡単に分かりますが、
+重要なシステム（特にお金に関わるシステム）には、その危険性を許容できないです。
 
-## 問題2
+- 目視チェックするか（チェック漏れあり）
+- ソースチェックツールの導入(FindBugsなど一部パターンのみ対応可能)
+- 大量テストで保証する（テスト漏れあり）
 
-サンプルソースコードの問題は、List自体は、
-配列の要素がindexで自由にアクセスできることで、
-実行時`IndexOutOfBoundsException`が発生する可能性あります。
+いくつありますが、根本的な解決案ではないです。
 
-問題２は、[次回の記事](?typesafe_in_java/TypeSafeIndexOutOfBound)で説明いたします。
+## 問題2：else文・書き漏れやすい
 
-## TypeSafe解決案　課題
+else文書かないデメリットは
+前文（[バグの潜在：if...else...の危険性](?typesafe_in_java/TypeSafeIfElse)）
+へご参照ください。
 
-前文（[TypeSafe@企業・中大規模プロジェクト](?typesafe_in_java_enterprise/TypeSafeCollection)）
-で説明したように、Listを空可能の状態`MayEmptyList`と空不可の状態`NotEmptyList`を分離で、Listがもっと安全に使われると説明しました。
+# Java8の解決案
 
-`list.get(0)`を`NotEmptyList.first()`に書き替えすれば、絶対IndexOutOfBoundsExceptionになら無いよう保証できます。
-
-但し、MayEmptyListからNotEmptyListに変換するため、サンプルの書き方だっと、２ステップが分かれてしまって、結局危険性（バグ）が残ってしまいます。
-
+Java8はnull危険の意識で`java.util.Optional<T>`を導入しました。
 
 ```java
-void doFoo(MayEmptyList<Integer> mayEmpty) {
+void doFoo(Optional<String> param) {
 
-    if (!mayEmpty.isEmpty()) {
-        NotEmpytList notEmpty = convertToNotEmpytList(mayEmpty); // 課題：2ステップ問題解消できず
-
-        int num = notEmpty.first(); // notEmptyは絶対1以上だから、get(0)をfirst()で安全でlistにアクセスできる。
-
-        doBar(num);
-    }
+    param.ifPresent(
+        stringNotNull->
+            doBar(stringNotNull));
 }
 ```
 
-## 課題対応
+但し、 問題1のみ対応可能、問題２は対応していないです。
 
-[Java8でLambda](http://www.oracle.com/technetwork/jp/articles/java/architect-lambdas-part1-2080972-ja.html)の対応は大きな進化です。
+さらに、残念ですが、Java8のOptional設計は、TypeSafeの大原則：
 
-TypeSafeからの観点で、`実行時のExceptionをなるべくCompile時点で無くす`の方針がございます。
+> エラー（バグ）は、`実行`段階で発生するより、できるだけ`実行前`（例え、コンパイル）の段階で検知する
+
+違反する場合あります：
+
+例えば、
+`java.util.Optional.get()`のメソッドで、nullの場合`実行時`にExceptionが発生します。
 
 
+## TypeSafe解決案
 
+Java8の`java.util.Optional<T>`は巣晴らしい解決案です。
+Optionalを利用で、システム全体に、すべての`null`キーワードを解消できて、型安全に大きいな改善です。
 
+TypeSafeからの観点で、Optionalの良いポイントを利用し、
+よくないポイント(例、`java.util.Optional.get()`メソッド)を禁止すれば、より安全なJavaプログラミングになります。
 
+```java
+void doFoo(Optional<String> param) {
 
+    param.ifPresent(
+        stringNotNull->
+            doBar(stringNotNull),
+        ()->
+            doBarWhileNull()); // 問題２解決：else明記が必須！
+}
+```
 
 ## TypeSafeデメリット
 
 - Java8のlambda詳しくない、部品の作り方分からない
-- 「if...else...が当然だろう」の世界観では、どういうふうにプロジェクト全体に適用できるか
-- 危険性のある箇所もっとあるか、どうすれば対応すべきか。
+- 「nullが当然だろう」の世界観では、どういうふうにプロジェクト全体に適用できるか
+- 危険性のある箇所もっとあるではないか、どうすれば対応すべきか。
 
 いろいろ質問があると思っています。
 
