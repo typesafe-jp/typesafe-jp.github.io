@@ -21,25 +21,33 @@ TypeSafeは、下記のテーマの中心で研究活動を行っています。
 ### TypeSafe for Enterprise
 
  - [中大規模企業開発向けのTypeSafe](?typesafe_in_java_enterprise/TypeSafeCollection)
+<span class="glyphicon glyphicon-time"></span>15分
 
 ### TypeSafe Technologies
 
 #### 静的な言語の王様： Java
 
  - [バグの潜在：nullの危険性](?typesafe_in_java/TypeSafeNull)
+<span class="glyphicon glyphicon-time"></span>5分
  - [バグの潜在：if...else..の危険性](?typesafe_in_java/TypeSafeIfElse)
+<span class="glyphicon glyphicon-time"></span>5分
  - [バグの潜在：配列へアクセス、不必要な自由](?typesafe_in_java/TypeSafeIndexOutOfBound)
+<span class="glyphicon glyphicon-time"></span>5分
  - [バグの潜在：Java世界で危険な常識](?typesafe_in_java/TypeSafeJavaLang_not_open)
+<span class="glyphicon glyphicon-time"></span>5分
 
 #### Web言語の王様: JavaScript
 
  - [JavaScriptもTypeSafe道へ](?typesafe_in_web/TypeSafeJS_not_open)
+<span class="glyphicon glyphicon-time"></span>5分
 
 #### ビジネスの基盤： Database
 
  - [災難から守る：データベースもバージョン管理](?typesafe_in_database/TypeSafeCRUD_not_open)
+<span class="glyphicon glyphicon-time"></span>10分
 
 #### マルチコア世界へ: 並列プログラミング
 
  - [TypeSafeは並列処理と相性が良い](?typesafe_in_database/TypeSafeConcurrency_not_open)
+<span class="glyphicon glyphicon-time"></span>5分
 
