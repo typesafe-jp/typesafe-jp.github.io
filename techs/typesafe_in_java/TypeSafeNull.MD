@@ -85,7 +85,7 @@ void doFoo(Optional<String> param) {
 `java.util.Optional.get()`のメソッドで、nullの場合`実行時`にExceptionが発生します。
 
 
-## TypeSafe解決案
+# TypeSafe解決案
 
 Java8の`java.util.Optional<T>`は巣晴らしい解決案です。
 Optionalを利用で、システム全体に、すべての`null`キーワードを解消できて、型安全に大きいな改善です。
@@ -104,7 +104,7 @@ void doFoo(Optional<String> param) {
 }
 ```
 
-## TypeSafeデメリット
+# TypeSafe FAQ
 
 - Java8のlambda詳しくない、部品の作り方分からない
 - 「nullが当然だろう」の世界観では、どういうふうにプロジェクト全体に適用できるか

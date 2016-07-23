@@ -142,7 +142,7 @@ void doFoo(MayEmptyList<Integer> mayEmpty) {
 
 ---
 
-## TypeSafeデメリット
+## TypeSafe FAQ
 
 - Java8のlambda詳しくない、部品の作り方分からない
 - 「if...else...が当然だろう」の世界観では、どういうふうにプロジェクト全体に適用できるか
