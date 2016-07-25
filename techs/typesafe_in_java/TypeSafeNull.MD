@@ -87,7 +87,7 @@ void doFoo(Optional<String> param) {
 
 # TypeSafe解決案
 
-Java8の`java.util.Optional<T>`は巣晴らしい解決案です。
+Java8の`java.util.Optional<T>`は晴らしい解決案です。
 Optionalを利用で、システム全体に、すべての`null`キーワードを解消できて、型安全に大きいな改善です。
 
 TypeSafeからの観点で、Optionalの良いポイントを利用し、
@@ -97,10 +97,10 @@ TypeSafeからの観点で、Optionalの良いポイントを利用し、
 void doFoo(Optional<String> param) {
 
     param.ifPresent(
-        stringNotNull->
+        stringNotNull->  // 問題1解決：ifPresent結果が「true」：null以外の場合、値が同時に提供されるので、２ステップ問題解消！
             doBar(stringNotNull),
         ()->
-            doBarWhileNull()); // 問題２解決：else明記が必須！
+            doBarWhileNull()); // 問題２解決：二番目引数（else）が必ず求めて、elseの明記が必須となる！
 }
 ```
 

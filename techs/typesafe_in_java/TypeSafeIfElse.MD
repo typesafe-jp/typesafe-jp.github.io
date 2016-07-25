@@ -123,13 +123,13 @@ void doFoo(MayEmptyList<Integer> mayEmpty) {
     mayEmpty.ifPresent( /* List要素存在する場合 */
         notEmpty -> {   /* 注：NotEmpytList　の型省略してもよい */
 
-            // 問題1解決： ifPresent結果が「true」の場合、NotEmpytListが同時に提供するので、２ステップ問題解消！
+            // 問題1解決： ifPresent結果が「true」:空以外の場合、NotEmpytListが同時に提供されるので、２ステップ問題解消！
             int num = notEmpty.first();
 
             doBar(num);
         },
         () -> {
-            throw new RuntimeException("Never"); // 問題２解決：else明記が必須！
+            throw new RuntimeException("Never"); // 問題２解決：二番目引数（else）が必ず求めて、elseの明記が必須となる！
         }
     }
 }
