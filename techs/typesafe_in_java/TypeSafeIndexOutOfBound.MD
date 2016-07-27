@@ -41,7 +41,7 @@ void doFoo(List<Integer> list) {
 データによって実行ルートが違いため、再現性がなくなり、
 バグ調査が難しくなります。
 
-> もう２つの問題は：
+> 他の問題は：
 >
 > 前の記事[バグの潜在：if...else...の危険性](?typesafe_in_java/TypeSafeIfElse)]
 > で説明しますので、本文割愛します。
@@ -59,18 +59,17 @@ TypeSafeよりの解決案は：
 ### 例１ 　indexより要素アクセスより、できるだけ`意味あるメソッド`よりアクセス
 
 前文（[TypeSafe@企業・中大規模プロジェクト](?typesafe_in_java_enterprise/TypeSafeCollection)）
-より、NotEmpytListを必ず要素が持つListを表現しています。
+より、NotEmpytListを必ず要素が持つListの表現としています。
 
-NotEmpytListの場合、一番目と最後の要素が必ず存在するので、
-その特徴を利用で、ソースコードをfirst(), last()ではっきり表現できます：
+NotEmpytList（１件以上）の場合、一番目と最後の要素が必ず存在するので、
+その特徴を利用で、ソースコードをfirst(), last()で一番目と最後の要素をはっきり表現できます：
 
 ```java
 void doFoo(MayEmptyList<Integer> mayEmpty) {
 
-    mayEmpty
-    .ifPresent(
+    mayEmpty.ifPresent(
         (NotEmpytList　notEmpty) -> {
-            // 問題解決： Listが空ではないので、first()/last()は必ず存在
+            // 問題解決： Listが空ではないので、first()/last()は必ず存在！
             int firstNum = notEmpty.first();
 
             doBar(firstNum);
@@ -102,18 +101,18 @@ index経由せずListにアクセスできます：
 ```
 
 [Java8のLambda](http://www.oracle.com/technetwork/jp/articles/java/architect-lambdas-part1-2080972-ja.html)
-を活用すれば、簡単に解決できます。
+を活用すれば、上記の問題簡単に解決できます。
 
 例：
 
 ```java
 void doFoo(MayEmptyList<Integer> mayEmpty) {
 
-    mayEmpty.forEach(
+    mayEmpty.forEach( // forEachはMayEmptyListサポートしているlambda式
         (element, index) -> {
 
             // 問題解決： elementとindexがセットでくるので、安心利用可能です
-            doBar(element, index);
+            doSomething(index, element);
         }
     }
 }
@@ -131,6 +130,7 @@ void doFoo(MayEmptyList<Integer> mayEmpty) {
 
 - Java8のlambda詳しくない、部品の作り方分からない
 - 「for文好き」の世界観では、どういうふうにプロジェクト全体に適用できるか
+- どうしてもindexよりアクセスしたい場合どうすべきか
 - 危険性のある箇所もっとあるではないか、どうすれば対応すべきか。
 
 いろいろ質問があると思っています。
