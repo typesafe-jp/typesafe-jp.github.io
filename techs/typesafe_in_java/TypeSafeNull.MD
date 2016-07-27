@@ -23,24 +23,44 @@ void doFoo(String param) {
 ```
 
 
-# 問題とは？
+# null問題とは？
 
-２点の潜在問題あります。
+1. null意味不明
+2. `nullチェック忘れ`あります。
 
-前文（[バグの潜在：if...else...の危険性](?typesafe_in_java/TypeSafeIfElse)）
-と同じ、
-`if...else...`文を利用しているので、２点の潜在問題あります。
-
-1. if文・先決条件書き漏れやすい
-2. else文・書き漏れやすい
+> 他の問題は：
+>
+> 前の記事[バグの潜在：if...else...の危険性](?typesafe_in_java/TypeSafeIfElse)]
+> で説明しますので、本文割愛します。
 
 
-## 問題1: if文・先決条件書き漏れやすい
+## 問題1: null意味不明
 
-上記の実装が許せるシステムには、１つ潜在の危険性（バグ）があります：
+意味不明＝＝曖昧な実装＝＝バグと繋がりです。
 
+例えば、`java.util.Map.get(key)`の結果がnullで返却される場合
+
+1. キーが存在しないか
+2. キーが存在しますが、「`データ自体がnull`」か
+
+２つパターンありますので、曖昧な状態になります。
+
+解決案は、明示的に、ある意味のある型（TypeSafe）で「`データ自体がnull`」のことを表現して、
+常に 「null＝＝キーが存在しない」 のコーディングルールを作る必要です。
+
+但し、nullが表現できる意味が多いので、
+すべての開発者がコーディングルールを守れるかと懸念しています。
+例えば、JDKには、nullの動きをはっきりさせるために、
+大量なnullに関するコメントを作られています：
+
+- [java.util.Map.get(key)のJavaDoc](http://docs.oracle.com/javase/jp/8/docs/api/java/util/Map.html#get-java.lang.Object-)
+- [java.util.Map.put(key, value)のJavaDoc](http://docs.oracle.com/javase/jp/8/docs/api/java/util/Map.html#put-K-V-)
+
+
+## 問題２：`nullチェック忘れ`あります。
+
+上記の実装の１つ潜在の危険性（バグ）は、
 `param != null`の判定と、`param.toLowerCase()`が２ステップで分けられているので、
-
 `param != null`を判定せずに、
 `param.toLowerCase()`を呼び出してしまうと、
 実行時有名な`NullPointException`が発生する可能性あります。
@@ -48,66 +68,89 @@ void doFoo(String param) {
 簡単なサンプルなら、そんなバグはすぐ簡単に分かりますが、
 重要なシステム（特にお金に関わるシステム）には、その危険性を許容できないです。
 
+その危険性を排除する方法は：
+
 - 目視チェックするか（チェック漏れあり）
-- ソースチェックツールの導入(FindBugsなど一部パターンのみ対応可能)
+- ソースチェックツールの導入(IDE、FindBugsなど一部パターンのみ対応可能)
 - 大量テストで保証する（テスト漏れあり）
 
 いくつありますが、根本的な解決案ではないです。
 
-## 問題2：else文・書き漏れやすい
+> ソースチェックツールの関する、[ソースチェックツールの限界、FindBugsのデメリット](?typesafe_in_java/CodeAnalysisTools_not_open)
+> へご参照してください。
 
-else文書かないデメリットは
-前文（[バグの潜在：if...else...の危険性](?typesafe_in_java/TypeSafeIfElse)）
-へご参照ください。
 
-# Java8の解決案
+# Java8のOptional解決案
 
-Java8はnull危険の意識で`java.util.Optional<T>`を導入しました。
+Java8より、null危険意識し
+[`java.util.Optional<T>`](http://docs.oracle.com/javase/8/docs/api/java/util/Optional.html)
+が導入されました。
+null可能性があるObjectを`Optional<T>`で表現できることです。
+
+`Optional<T>`の導入で何が変わるんでしょうか？例えば、
 
 ```java
-void doFoo(Optional<String> param) {
+void doFoo(Optional<String> param) { // null可能性あるよとOptional型で表現
 
     param.ifPresent(
-        stringNotNull->
+        stringNotNull-> // nullではない場合、同時に値を提供していて、`nullチェック忘れ`ずに値取得
             doBar(stringNotNull));
 }
 ```
 
-但し、 問題1のみ対応可能、問題２は対応していないです。
+上記の例でif...else..書かなくて良いことで、`nullチェック忘れ`が解消できます。
 
-さらに、残念ですが、Java8のOptional設計は、TypeSafeの大原則：
+> 前文（[バグの潜在：if...else...の危険性](?typesafe_in_java/TypeSafeIfElse)）ご参照してください。
+
+
+# Java8のOptionalの問題
+
+但し、TypeSafeの観点：
 
 > エラー（バグ）は、`実行`段階で発生するより、できるだけ`実行前`（例え、コンパイル）の段階で検知する
 
-違反する場合あります：
+より、ルール違反する場合もあります。
 
-例えば、
-`java.util.Optional.get()`のメソッドで、nullの場合`実行時`にExceptionが発生します。
+Java8のOptionalでは、下記の書き方も許し、
+`java.util.Optional.get()`のメソッドで、nullの場合`実行時`にExceptionが発生する：
+
+```java
+void doFoo(Optional<String> param) {
+
+    if (param.isPresent)    // 一旦　問題２：`nullチェック忘れ`になり
+        doBar(param.get()); // get()メソッドは、`実行時`にExceptionが発生
+}
+```
 
 
 # TypeSafe解決案
 
 Java8の`java.util.Optional<T>`は晴らしい解決案です。
-Optionalを利用で、システム全体に、すべての`null`キーワードを解消できて、型安全に大きいな改善です。
+Optionalを利用で、システム全体に`null`キーワードを解消できて、型安全に大きいな改善です。
 
-TypeSafeからの観点で、Optionalの良いポイントを利用し、
-よくないポイント(例、`java.util.Optional.get()`メソッド)を禁止すれば、より安全なJavaプログラミングになります。
+TypeSafeからの観点で、Optionalの良い所（`TypeSafe`）を利用し、
+良くない所(`Type UnSafe`な`実行時`にException発生のメソッド)
+を利用禁止にすれば、より安全なJavaプログラミングになります。
+
+TypeSafe解決案のlambda実装例：
 
 ```java
+import ts.immutable.object.Optional;
+
 void doFoo(Optional<String> param) {
 
     param.ifPresent(
-        stringNotNull->  // 問題1解決：ifPresent結果が「true」：null以外の場合、値が同時に提供されるので、２ステップ問題解消！
+        stringNotNull->  // ifPresent結果が「true」：null以外の場合、値が同時に提供されるので、２ステップ問題解消！
             doBar(stringNotNull),
         ()->
-            doBarWhileNull()); // 問題２解決：二番目引数（else）が必ず求めて、elseの明記が必須となる！
+            doBarWhileNull()); // 更に、二番目引数（else）が必ず求めて、elseの明記が必須となる！
 }
 ```
 
 # TypeSafe FAQ
 
 - Java8のlambda詳しくない、部品の作り方分からない
-- 「nullが当然だろう」の世界観では、どういうふうにプロジェクト全体に適用できるか
+- 「nullチェックが当たり前」の世界観では、どういうふうにプロジェクト全体に適用できるか
 - 危険性のある箇所もっとあるではないか、どうすれば対応すべきか。
 
 いろいろ質問があると思っています。
