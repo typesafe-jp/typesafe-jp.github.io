@@ -287,7 +287,7 @@ void doView(Parameter parameters) {
     MayEmptyList<Integer> parameterList = createList(parameters); // 結果：[1, 3, 3, 2]
 
     // 空チェック後、必ず１件以上なので、NonEmptyList<Integer> で表現すべき
-    NotEmptyList<Integer> parameterNotEmpty = convertToNonEmpty(parameterList);// convertToNonEmptyは、次回の文章で説明
+    NotEmptyList<Integer> parameterNotEmpty = convertToNonEmpty(parameterList);// convertToNonEmptyは、次回の"バグの潜在：if...else..の危険性"で説明
 
     doController(parameterNotEmpty); // 次CチームのAPI（NotEmptyListで制限済み）を呼び出し
 }
@@ -297,7 +297,7 @@ void doView(Parameter parameters) {
 そうしないと、コンパイルエラーが通れなくて、CチームのAPIを呼び出しはできないからです。
 
 *　Note： convertToNonEmptyメソッドに、 `MayEmptyList`から`NotEmptyList`へ変換のため、通常`if...else`の判断が必要、
-それも１つのTypeSafeの非推薦ポイントとなり、次回の[バグの潜在：if...else..の危険性](?typesafe_in_java/AboutIfElse_not_open)で説明させていただきます。　*
+それも１つのTypeSafeの非推薦ポイントとなり、次回の[バグの潜在：if...else..の危険性](?typesafe_in_java/TypeSafeIfElse)で説明させていただきます。　*
 
 ## C（制御）チーム
 
@@ -385,8 +385,6 @@ TypeSafeとは、
 各値の状態表現できる明示的な型を作って、
 より安全な型（`TypeSafe`）で業務ロジックを表現できるようになります。
 
-TypeSafeのメリットとデメリットを説明いたします。
-
 ## TypeSafeメリット
 
 大きなメリットは、
@@ -403,7 +401,6 @@ JAVA、C#のような静的な言語のCompilerの制限を最大化し、
 - ソースコードだけでチーム間コミュニケーションできる：打合せの会議不要！
 - 無駄な作業（多重実装、無駄テストなど）削減：納期守られる
 - ソフトウェア品質上がる：開発から保守まで安心
-
 
 
 ## TypeSafe FAQ
@@ -432,6 +429,6 @@ TypeSafe株式会社は、
 幾つか重要なポイント説明していないです。
 このポイントがないと、TypeSafeは成り立てません。
 
-次回は、[TypeSafe成り立てる重要なポイント](?not_open)を説明させていただきます。
+次回は、[TypeSafe成り立てる重要なポイント](?typesafe_in_java_enterprise/TypeSafeKeyPoint_not_open)を説明させていただきます。
 お楽しみください。
 
