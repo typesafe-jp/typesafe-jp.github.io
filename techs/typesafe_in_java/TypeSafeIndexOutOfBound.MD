@@ -41,6 +41,9 @@ void doFoo(List<Integer> list) {
 データによって実行ルートが違いため、再現性がなくなり、
 バグ調査が難しくなります。
 
+さらに、発生する場合が特定できず（テスト漏れなど理由で）、
+そのまま商用リリースしたシステムに対するのは「時限爆弾」です。
+
 > 他の問題は：
 >
 > 前の記事[バグの潜在：if...else...の危険性](?typesafe_in_java/TypeSafeIfElse)]
@@ -84,7 +87,7 @@ void doFoo(MayEmptyList<Integer> mayEmpty) {
 ### 例2　　indexより要素へアクセス徹底禁止
 
 Java5から型の安全性(`TypeSafe`)の`for-each`の導入で、
-index経由せずListにアクセスできます：
+index経由せずListにアクセスできる大きな進化でした：
 
 ```java
         for (String str : stringList) {
@@ -92,7 +95,7 @@ index経由せずListにアクセスできます：
         }
 ```
 
-但し、indexの情報が必要な場合、危険な書き方に戻さないといけない問題あります。
+但し、indexの情報が必要な場合、危険な「index経由アクセス」の書き方に戻さないといけない問題あります。
 
 ```java
         for (int i = 0; i < array.length; i++) {
@@ -101,7 +104,7 @@ index経由せずListにアクセスできます：
 ```
 
 [Java8のLambda](http://www.oracle.com/technetwork/jp/articles/java/architect-lambdas-part1-2080972-ja.html)
-を活用すれば、上記の問題簡単に解決できます。
+はJavaを関数向けプログラミングに大きな進化です。Lambdaより上記の問題簡単に解決できます。
 
 例：
 
@@ -120,9 +123,9 @@ void doFoo(MayEmptyList<Integer> mayEmpty) {
 
 ## 結論
 
-上記のように、Listや配列へのアクセス不必要な自由を徹底的に取り除き、
+上記のように、Listや配列へのアクセス不必要なアクセス自由を徹底的に取り除き、
 その自由の危険さを吸収する部品(例、forEach、first、last)の提供で、
-より安全なソフトウェアを作られます。
+よりもっと安全なソフトウェアを作られます。
 
 ---
 
