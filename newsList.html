@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="TypeSafe株式会社 タイプセーフ株式会社は安心安全なソフトウェア構築を目指す、受託開発、人材提供を行っています。">
+    <meta name="author" content="typesafe.jp,TypeSafe株式会社,TypeSafe(株),タイプセーフ株式会社,タイプセーフ(株),ＴｙｐｅＳａｆｅ株式会社,ＴｙｐｅＳａｆｅ(株)">
+    <title>ニューズ | TypeSafe株式会社</title>
+    <link rel="icon" href="images/logo/TS-32x32.png" sizes="32x32">
+    <link rel="icon" href="images/logo/TS-192x192.png" sizes="192x192">
+    <link rel="apple-touch-icon-precomposed" href="images/logo/TS-180x180.png">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/business-frontpage.css" rel="stylesheet">
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+</head>
+
+<body>
+<div id="ty_header"></div>
+<div class="container">
+    <hr>
+    <div class="row">
+        <div class="col-sm-12">
+            <h2 class="business_description">ニューズリリース</h2>
+            <table class="table table-hover">
+                <tr>
+                    <td class="col-md-3">2016年05月(平成二十八年五月)</td>
+                    <td class="col-md-9"><a href="newsList.html">Typesafe株式会社を設立しました。</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="ty_footer"></div>
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/ty_com.js"></script>
+<script>
+    var $gMapFrame = $('#gMapFrame');
+    $gMapFrame.css('pointer-events', 'none');
+
+    $('#gMap')
+        .click(function () {
+            $gMapFrame.css('pointer-events', 'auto');
+        })
+        .mouseleave(function () {
+            $gMapFrame.css('pointer-events', 'none');
+        });
+
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            };
+        i[r].l = 1 * new Date();
+        a = s.createElement(o);
+        m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-78227633-1', 'auto');
+    ga('send', 'pageview');
+</script>
+</body>
+
+</html>
