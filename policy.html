@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="TypeSafe株式会社 タイプセーフ株式会社は安心安全なソフトウェア構築を目指す、受託開発、人材提供を行っています。">
+    <meta name="author" content="typesafe.jp,TypeSafe株式会社,TypeSafe(株),タイプセーフ株式会社,タイプセーフ(株),ＴｙｐｅＳａｆｅ株式会社,ＴｙｐｅＳａｆｅ(株)">
+    <title>採用情報 | TypeSafe株式会社</title>
+    <link rel="icon" href="images/logo/TS-32x32.png" sizes="32x32">
+    <link rel="icon" href="images/logo/TS-192x192.png" sizes="192x192">
+    <link rel="apple-touch-icon-precomposed" href="images/logo/TS-180x180.png">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/highlight.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/business-frontpage.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div id="ty_header"></div>
+    <br>
+    <div class="container">
+        <h2 class="business_description">個人情報保護方針</h2>
+        <div class="row">
+            <div class="col-md-8">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p class="policy-content-font-strong">基本方針</p>
+                                <p class="policy-content"> 当社は、この責任を果たして行くために、個人情報保護方針を定め、当社の役員および従業員は、 この方針に従って、個人情報の適正な取り扱い、管理、維持に努めてまいります。
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="policy-content-font-strong">個人情報に関するコンプライアンス・プログラムの目的</p>
+                                <p class="policy-content">適切な個人情報の収集および利用の基準とこれを運用するための具体的ルールを定める。</p>
+                                個人情報への不正アクセス、個人情報の紛失、破壊、改ざんおよび漏洩などが起こらないようにするための具体的ルールを定める。</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="policy-content-font-strong">個人情報の第三者への提供</p>
+                                <p class="policy-content">当社は、取得した個人情報を第三者に開示又は提供いたしません。ただし、法令に基づく場合など、正当な理由がある場合を除きます。</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="policy-content-font-strong">個人情報の適切な管理</p>
+                                <p class="policy-content">
+                                    当社は、収集した個人情報に対し、不正アクセス、紛失、破壊、改ざん及び漏えい等の予防並びに是正措置を講じ、技術面及び組織面において合理的な管理の下で安全に蓄積・保管します。</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4 class="policy_sign">制定2016年5月</h4>
+                                <h4 class="policy_sign">Typesafe株式会社</h4>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+    <!-- Footer -->
+    <div id="ty_footer"></div>
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="js/highlight.min.js"></script>
+    <script src="js/marked.min.js"></script>
+    <script src="js/ty_com.js"></script>
+    <script type="text/javascript">
+    function doSearch(jobId) {
+        if (typeof jobId === 'undefined' || !jobId) {
+            jobId = $('#jobid').val();
+        } else if (jobId === 'index') {
+            // just show index info
+        } else {
+            $('#jobid').val(jobId);
+        }
+        $('#jobNotFound').addClass('hidden');
+        $('#jobDetail').empty();
+
+        $.ajax({
+            url: 'jobs/' + jobId + '.MD',
+            dataType: 'text'
+        }).success(function(data) {
+            var $jobDetail = $('#jobDetail');
+            $jobDetail.html(marked(data));
+            $jobDetail.find('pre code:not(.hljs)').each(function(i, block) {
+                hljs.highlightBlock(block);
+            });
+            $jobDetail.find('table').addClass('table table-bordered table-striped');
+            $('#myModal').modal();
+        }).error(function(e) {
+            $('#jobNotFound').removeClass('hidden');
+        });
+    }
+
+    $('#jobForm').submit(function(e) {
+        e.preventDefault();
+        doSearch();
+    });
+    $('#getJob').click(function() {
+        doSearch();
+    });
+    // Support URL ?serachKey
+    if (window.location.search.length > 1) {
+        doSearch(window.location.search.replace('\?', ''))
+    };
+    // Init only once
+    marked.setOptions({
+        langPrefix: '',
+        headerPrefix: 'TS'
+    });
+    hljs.initHighlighting();
+    // Recruit web hacker!
+    console.log(
+        "======================================\n" +
+        "Web好きのあなた、ぜひTypeSafeへご加入を期待しています。\n" +
+        "お問い合わの際に、タイトルに「From console」お付き頂ければ、\n" +
+        "VIP対応させて頂きます。\n" +
+        "======================================\n");
+    </script>
+</body>
+
+</html>

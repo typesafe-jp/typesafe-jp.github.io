@@ -2,21 +2,17 @@
 <html lang="ja">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="TypeSafe株式会社 タイプセーフ株式会社は安心安全なソフトウェア構築を目指す、受託開発、人材提供を行っています。">
     <meta name="author" content="typesafe.jp,TypeSafe株式会社,TypeSafe(株),タイプセーフ株式会社,タイプセーフ(株),ＴｙｐｅＳａｆｅ株式会社,ＴｙｐｅＳａｆｅ(株)">
-
     <title>TypeSafe技術センター | TypeSafe株式会社</title>
     <link rel="icon" href="images/logo/TS-32x32.png" sizes="32x32">
     <link rel="icon" href="images/logo/TS-192x192.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="images/logo/TS-180x180.png">
-
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/highlight.min.css" rel="stylesheet" >
-
+    <link href="css/highlight.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="css/business-frontpage.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -25,66 +21,12 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 </head>
 
 <body>
-<!-- Navigation -->
-<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
-    <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="index.html" class="navbar-left"><img src="images/logo.png" alt="TypeSafe株式会社"></a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="company.html">会社概要</a>
-                </li>
-                <li>
-                    <a href="business.html">事業内容</a>
-                </li>
-                <li>
-                    <a href="recruit.html">採用情報</a>
-                </li>
-                <li>
-                    <a href="access.html">お問い合せ</a>
-                </li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container -->
-</nav>
-
-<!-- Image Background Page Header -->
-<!-- Note: The background image is set within the business-casual.css file. -->
-<header class="business-header business-header-none">
-    <div class="container">
-        <div class="row top-buffer">
-            <ul class="breadcrumb">
-                <li><a href="index.html">Home</a></li>
-                <li class="active">TypeSafe技術センター
-                    <span id="loading">
-                        <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
-                        Loading...
-                    </span>
-                </li>
-            </ul>
-        </div>
-    </div>
-</header>
-
+<div id="ty_header"></div>
 <!-- Page Content -->
 <div class="container">
-
     <div class="row">
         <!--<div class="col-sm-3" id="toc">-->
         <!--</div>-->
@@ -96,7 +38,6 @@
             </nav>
         </div>
     </div>
-
     <div class="panel panel-danger hidden" id="articleNotFound">
         <div class="panel-heading"><span class="glyphicon glyphicon-remove"></span> 大変申し訳ございませんが、記事が見つかりません。</div>
         <div class="panel-body">
@@ -107,44 +48,37 @@
     </div>
 </div>
 <!-- /.container -->
-
 <!-- Footer -->
-<footer class="footer">
-    <div class="container">
-        <p class="text-muted">Copyright &copy; TypeSafe株式会社 2017</p>
-    </div>
-</footer>
-
-<!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<div id="ty_footer"></div>
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
 <script src="js/highlight.min.js"></script>
 <script src="js/marked.min.js"></script>
 <script src="js/jquery.toc.min.js"></script>
+<script src="js/ty_com.js"></script>
 <script type="text/javascript">
-    function doSearch(articleId){
-        if (typeof articleId === 'undefined' || !articleId){
+    function doSearch(articleId) {
+        if (typeof articleId === 'undefined' || !articleId) {
             articleId = 'WhyTypeSafe';
         }
         $('#articleNotFound').addClass('hidden');
         $('#articleDetail').empty();
-
-        $.ajax({
-            url: 'techs/' + articleId + '.MD',
-            dataType: 'text'
-        }).success(searchOK).error(function(e){
-            $('#articleNotFound').removeClass('hidden');
-        }).complete(function(){
-            $('#loading').hide();
-        });
+        setTimeout(function () {
+            $.ajax({
+                url: 'techs/' + articleId + '.MD',
+                dataType: 'text'
+            }).success(searchOK).error(function (e) {
+                $('#articleNotFound').removeClass('hidden');
+            }).complete(function () {
+                $('#loading').hide();
+            });
+        }, 1000);
     }
 
-    function searchOK(data){
+    function searchOK(data) {
         var $articleDetail = $('#articleDetail');
         $articleDetail.html(marked(data));
-        $articleDetail.find('pre code:not(.hljs)').each(function(i, block) {
+        $articleDetail.find('pre code:not(.hljs)').each(function (i, block) {
             hljs.highlightBlock(block);
         });
         $articleDetail.find('table').addClass('table table-bordered table-striped');
@@ -155,15 +89,17 @@
             .attr('role', 'button')
             .attr('tabindex', '0')
             .popover({
-                title: '<span class="text-info"><strong>未公開記事</strong></span>'+
-                       '<button type="button" id="close" class="close" onclick="$(this).popover(&quot;hide&quot;);">&times;</button>',
+                title: '<span class="text-info"><strong>未公開記事</strong></span>' +
+                '<button type="button" id="close" class="close" onclick="$(this).popover(&quot;hide&quot;);">&times;</button>',
                 placement: 'auto',
                 html: true,
                 content: '<div class="alert alert-danger"><strong>大変申し訳ございません!</strong>' +
-                    '<p>未公開記事です。お気軽くに<a href="inquire.html">お問い合わせ</a>ください。</p></div>',
+                '<p>未公開記事です。お気軽くに<a href="inquire.html">お問い合わせ</a>ください。</p></div>',
                 trigger: 'focus',
             })
-            .click(function(){return false;});
+            .click(function () {
+                return false;
+            });
 
         // Generate toc dynamic
         $('#tocUL').toc();
@@ -176,30 +112,31 @@
         });
 
         // Scroll animate
-        $('#articleToc a').click(function(){
+        $('#articleToc a').click(function () {
             $('html, body').animate({
-                scrollTop: $( $.attr(this, 'href') ).offset().top - 50     // .business-header margin-top: 50px
+                scrollTop: $($.attr(this, 'href')).offset().top - 50 // .business-header margin-top: 50px
             }, 500);
             return false;
         });
 
     }
 
-    // Support URL ?serachKey
-    doSearch(window.location.search.replace('\?',''))
-
+    $(document).ready(function () {
+        doSearch(window.location.search.replace('\?', ''))
+    });
     // Init only once
-    marked.setOptions({langPrefix: ''});
+    marked.setOptions({
+        langPrefix: ''
+    });
     hljs.initHighlighting();
     // Recruit web hacker!
     console.log(
-        "======================================\n"+
-        "Web好きのあなた、ぜひTypeSafeへご加入を期待しています。\n"+
-        "お問い合わの際に、タイトルに「From console」お付き頂ければ、\n"+
-        "VIP対応させて頂きます。\n"+
+        "======================================\n" +
+        "Web好きのあなた、ぜひTypeSafeへご加入を期待しています。\n" +
+        "お問い合わの際に、タイトルに「From console」お付き頂ければ、\n" +
+        "VIP対応させて頂きます。\n" +
         "======================================\n");
 </script>
-
 </body>
 
 </html>
