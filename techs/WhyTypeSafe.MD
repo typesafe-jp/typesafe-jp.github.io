@@ -39,7 +39,7 @@ TypeSafeは、下記のテーマの中心で研究活動を行っています。
 #### Web言語の王様: JavaScript
 
  - [JavaScriptもTypeSafe道へ](?typesafe_in_web/TypeSafeJS_not_open)
-<span class="glyphicon glyphicon-time"></span>5分
+<span class="glyphicon glyphicon-time"></span> 5分
 
 #### ビジネスの基盤： Database
 
